@@ -1,0 +1,86 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+i {
+    color: #000;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #FAF9F6;
+    color: #000;
+}
+
+.main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 50%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.folder {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px 10px 20px;
+
+    background-color: #fff;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+
+.folder .f-name {
+    width: 100%;
+    font-size: clamp(15px, 1vw, 20px);
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.folder .upload-date {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    font-size: clamp(15px, 1vw, 20px);
+}
+
+@media screen and (max-width: 450px) {
+    .folder .upload-date {
+        display: none;
+    }
+}
+
+.folder .f-name:hover {
+    text-decoration: underline;
+}
+
+.folder .upload-date:hover {
+    text-decoration: underline;
+}
