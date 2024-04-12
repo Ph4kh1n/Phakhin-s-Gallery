@@ -1,3 +1,3 @@
 document.getElementById('cat').addEventListener('click', function() {
-    window.location.href = "./Phakhin's Pictures";
+    window.location.href = "./รูปแงววว";
 });
