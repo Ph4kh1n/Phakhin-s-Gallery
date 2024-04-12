@@ -101,3 +101,9 @@ body {
 .folder .upload-date:hover {
     text-decoration: underline;
 }
+
+@media screen and (min-width: 430px) {
+    .container {
+        width: 80%;
+    }
+}
