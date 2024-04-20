@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <title>Upload Files</title>
+</head>
+<body>
+    <div id="page" class="site">
+        <div class="container">
+            <div class="file-upload">
+                <input type="file" name="files" class="file-input" multiple="multiple">
+                <div class="icon">
+                    <ion-icon name="arrow-up-outline"></ion-icon>
+                </div>
+                <h3>Drag & Drop files here</h3>
+                <span>- OR -</span>
+                <button>
+                    <ion-icon name="close"></ion-icon>
+                </button>
+            </div>
+            <div class="folder-path">
+                <p>เลือกโฟลเดอร์ที่ต้องการอัพโหลด</p>
+                <select id="path" name="folder">
+                    <option value="รูปแมว">รูปแมว</option>
+                </select>
+            </div>
+            <div class="list-upload">
+                <ul></ul>
+            </div>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons/dist/ionicons/ionicons.esm.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
