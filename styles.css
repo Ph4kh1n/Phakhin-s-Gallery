@@ -100,7 +100,7 @@ body {
   text-underline-offset: 3.5px;
 }
 
-#cat {
+.folderID {
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
 }

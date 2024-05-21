@@ -1,0 +1,124 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,800);
+@import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
+
+.main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px;
+}
+
+figure.snip1277 {
+  font-family: 'Raleway', Arial, sans-serif;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  margin: 10px;
+  min-width: 200px;
+  max-width: 285px;
+  width: 100%;
+  color: #ffffff;
+  text-align: left;
+  font-size: 16px;
+}
+figure.snip1277 * {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 0.25s ease-in;
+  transition: all 0.25s ease-in;
+}
+figure.snip1277 img {
+  opacity: 1;
+  width: 100%;
+  height: 100%;
+  vertical-align: top;
+  object-fit: cover;
+}
+figure.snip1277 figcaption {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  text-align: center;
+}
+figure.snip1277 figcaption:before {
+  content: '';
+  position: absolute;
+  width: 44px;
+  height: 100%;
+  right: 0;
+  top: 0;
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+  background-color: #ffffff;
+  -webkit-transition: all 0.25s ease-in;
+  transition: all 0.25s ease-in;
+  z-index: -1;
+}
+figure.snip1277 h3 {
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 0;
+  font-size: 1.1em;
+  text-transform: uppercase;
+}
+figure.snip1277 .icons {
+  position: absolute;
+  top: 5px;
+  width: 44px;
+  right: 0;
+}
+figure.snip1277 .icons a {
+  display: inline-block;
+}
+figure.snip1277 .icons i {
+  color: #ffffff;
+  line-height: 38px;
+  width: 44px;
+  font-size: 1.4em;
+  padding: 0;
+  text-align: center;
+  display: inline-block;
+  margin: 0;
+}
+figure.snip1277 .icons i:hover {
+  background-color: #164666;
+  color: #ffffff;
+}
+figure.snip1277:hover img,
+figure.snip1277.hover img {
+  -webkit-transform: translateX(-20px);
+  transform: translateX(-20px);
+}
+figure.snip1277:hover figcaption:before,
+figure.snip1277.hover figcaption:before {
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+figure.snip1277:hover figcaption h3,
+figure.snip1277.hover figcaption h3 {
+  -webkit-transform: translateX(-44px);
+  transform: translateX(-44px);
+}
+figure.snip1277:hover figcaption i,
+figure.snip1277.hover figcaption i {
+  color: #164666;
+}
+
+@media (max-width: 600px) {
+    figure.snip1277 {
+        width: 200px;
+        height: 300px;
+    }
+}
+
+@media (max-width: 400px) {
+    figure.snip1277 {
+        width: 120px;
+        height: 220px;
+    }
+}

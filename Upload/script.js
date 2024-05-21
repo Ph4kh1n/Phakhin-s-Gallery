@@ -10,6 +10,30 @@ const firebaseConfig = {
   
 firebase.initializeApp(firebaseConfig);
 
+window.addEventListener('DOMContentLoaded', () => {
+    const folderNames = Array.from(document.querySelectorAll('.f-name')).map(elem => elem.textContent);
+    const selectElement = document.getElementById('path');
+  
+    folderNames.forEach(folderName => {
+      const option = document.createElement('option');
+      option.value = folderName;
+      option.textContent = folderName;
+      selectElement.add(option);
+    });
+  });
+
+const selectElement = document.getElementById('path');
+
+selectElement.addEventListener('change', (event) => {
+  const selectedFolder = event.target.value;
+  const folderDiv = Array.from(document.querySelectorAll('.folder')).find(div => div.querySelector('.f-name').textContent === selectedFolder);
+
+  if (folderDiv) {
+    // อัปเดตข้อมูลใน folderDiv ตามที่ต้องการ
+    // เช่น folderDiv.querySelector('.upload-date').textContent = 'new date';
+  }
+});
+
 document.querySelector('.file-input').addEventListener('change', function() {
     let allowed_mime_types = []; // ถ้ามีการจำกัดประเภทไฟล์ให้ระบุไว้ที่นี่
     let allowed_size_mb = 100; // ขนาดไฟล์สูงสุดที่อนุญาต (MB)
@@ -29,64 +53,69 @@ document.querySelector('.file-input').addEventListener('change', function() {
             return;
         }
 
-        let uniq = 'id-' + btoa(file.name).replace(/=/g, '').substring(0, 7);
-        let filetype = file.type.split('/')[0]; // ได้ประเภทไฟล์หลัก เช่น image, video, audio, text
-        let fileIcon = getFileIcon(filetype); // ได้ไอคอนที่เหมาะสม
+        uploadFile(file);
+    }
+});
 
-        let li = `
-        <li class="file-list ${filetype}" id="${uniq}" data-filename="${file.name}">
-            <div class="thumbnail">
-                <ion-icon name="${fileIcon}"></ion-icon>
-                <span class="completed">
-                    <ion-icon name="checkmark"></ion-icon>
-                </span>
-            </div>
-            <div class="properties">
-                <span class="title"><strong>${file.name}</strong></span>
-                <span class="size">${bytesToSize(file.size)}</span>
-                <span class="progress">
-                    <span class="buffer"></span>
-                    <span class="percentage"></span>
-                </span>
-            </div>
-            <button class="remove">
-                <ion-icon name="close"></ion-icon>
-            </button>
-        </li>`;
+function uploadFile(file) {
+    let uniq = 'id-' + btoa(file.name).replace(/=/g, '').substring(0, 7);
+    let filetype = file.type.split('/')[0];
+    let fileIcon = getFileIcon(filetype);
 
-        document.querySelector('.list-upload ul').innerHTML = li + document.querySelector('.list-upload ul').innerHTML;
-        let li_el = document.querySelector('#' + uniq);
+    let li = `
+    <li class="file-list ${filetype}" id="${uniq}" data-filename="${file.name}">
+        <div class="thumbnail">
+            <ion-icon name="${fileIcon}"></ion-icon>
+            <span class="completed" style="display:none;">
+                <ion-icon name="checkmark"></ion-icon>
+            </span>
+        </div>
+        <div class="properties">
+            <span class="title"><strong>${file.name}</strong></span>
+            <span class="size">${bytesToSize(file.size)}</span>
+            <span class="progress">
+                <span class="buffer"></span>
+                <span class="percentage"></span>
+            </span>
+        </div>
+        <button class="remove" style="display:none;">
+            <ion-icon name="close"></ion-icon>
+        </button>
+    </li>`;
 
-        // อัพโหลดไฟล์ไปยัง Firebase Storage
-        const storageRef = firebase.storage().ref();
-        const folderPath = document.querySelector('#path').value;
-        const fileRef = storageRef.child(folderPath + '/' + file.name);
-        const uploadTask = fileRef.put(file);
+    document.querySelector('.list-upload ul').innerHTML = li + document.querySelector('.list-upload ul').innerHTML;
+    let li_el = document.querySelector('#' + uniq);
 
-        uploadTask.on('state_changed', (snapshot) => {
-            let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            progress = Math.round(progress);
-            li_el.querySelector('.buffer').style.width = progress + '%';
-            li_el.querySelector('.percentage').innerHTML = progress + '%';
-            li_el.querySelector('.percentage').style.left = progress + '%';
-        }, (error) => {
-            console.error('Upload failed:', error);
-        }, () => {
-            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                console.log('File available at', downloadURL);
-                li_el.querySelector('.completed').style.display = li_el.querySelector('.remove').style.display = 'flex';
-                li_el.querySelector('.remove').addEventListener('click', function() {
-                    fileRef.delete().then(() => {
-                        console.log('File deleted successfully');
-                        li_el.remove();
-                    }).catch((error) => {
-                        console.error('Error deleting file:', error);
-                    });
+    // อัพโหลดไฟล์ไปยัง Firebase Storage
+    const storageRef = firebase.storage().ref();
+    const folderPath = document.querySelector('#path').value;
+    const fileRef = storageRef.child(folderPath + '/' + file.name);
+    const uploadTask = fileRef.put(file);
+
+    uploadTask.on('state_changed', (snapshot) => {
+        let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        progress = Math.round(progress);
+        li_el.querySelector('.buffer').style.width = progress + '%';
+        li_el.querySelector('.percentage').innerHTML = progress + '%';
+        li_el.querySelector('.percentage').style.left = progress + '%';
+    }, (error) => {
+        console.error('Upload failed:', error);
+    }, () => {
+        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            console.log('File available at', downloadURL);
+            li_el.querySelector('.completed').style.display = 'inline-block';
+            li_el.querySelector('.remove').style.display = 'inline-block';
+            li_el.querySelector('.remove').addEventListener('click', function() {
+                fileRef.delete().then(() => {
+                    console.log('File deleted successfully');
+                    li_el.remove();
+                }).catch((error) => {
+                    console.error('Error deleting file:', error);
                 });
             });
         });
-    }
-});
+    });
+}
 
 function bytesToSize(bytes) {
     const units = ['bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -106,6 +135,9 @@ function getFileIcon(filetype) {
         case 'audio':
             icon = 'musical-note-outline';
             break;
+        case 'text':
+            icon = 'document-text-outline';
+            break;
         case 'application':
             icon = 'document-outline';
             break;
@@ -115,3 +147,25 @@ function getFileIcon(filetype) {
     }
     return icon;
 }
+
+const xhr = new XMLHttpRequest();
+
+xhr.open('GET', '../index.html', true);
+xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xhr.responseText, 'text/html');
+
+    // สร้าง option จาก class="f-name"
+    const folderNames = Array.from(doc.querySelectorAll('.f-name')).map(elem => elem.textContent);
+    const selectElement = document.getElementById('path');
+
+    folderNames.forEach(folderName => {
+      const option = document.createElement('option');
+      option.value = folderName;
+      option.textContent = folderName;
+      selectElement.add(option);
+    });
+  }
+};
+xhr.send();

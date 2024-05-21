@@ -1,6 +1,8 @@
-document.getElementById('cat').addEventListener('click', function() {
-    window.location.href = "./รูปแมว";
+document.getElementById('debut').addEventListener('click', function() {
+    window.location.href = "./Debut";
 });
+
+
 
 /*=============== SCROLL REVEAL ANIMATION ===============*/
 const sr = ScrollReveal({
