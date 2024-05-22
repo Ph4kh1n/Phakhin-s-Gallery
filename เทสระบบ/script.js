@@ -13,8 +13,6 @@ firebase.initializeApp(firebaseConfig);
 const folderName = document.title;
 const storageRef = firebase.storage().ref();
 
-console.log(document.title)
-
 // Function to get the download URLs and metadata for all files in a storage directory
 async function listAllFiles() {
     const listRef = storageRef.child(folderName); // adjust this path to your storage path
@@ -44,10 +42,11 @@ async function displayImages() {
     files.forEach(file => {
         const figure = document.createElement('figure');
         figure.className = 'snip1277';
-
+        
         const img = document.createElement('img');
         img.src = file.url;
         img.alt = file.name;
+        img.loading = "lazy";
 
         const figcaption = document.createElement('figcaption');
 
