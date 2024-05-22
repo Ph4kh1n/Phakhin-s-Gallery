@@ -10,8 +10,10 @@ const firebaseConfig = {
   
 firebase.initializeApp(firebaseConfig);
 
-const folderName = window.location.pathname;
+const folderName = document.title;
 const storageRef = firebase.storage().ref();
+
+console.log(document.title)
 
 // Function to get the download URLs and metadata for all files in a storage directory
 async function listAllFiles() {
@@ -54,7 +56,7 @@ async function displayImages() {
 
         const icons = document.createElement('div');
         icons.className = 'icons';
-        icons.innerHTML = '<a href="//www.instagram.com/tub2_pyo/"><i class="ion-social-instagram-outline"></i></a>';
+        icons.innerHTML = '<a href="'+ img.src +'"><ion-icon name="expand-outline"></ion-icon></a>';
 
         figcaption.appendChild(h3);
         figcaption.appendChild(icons);

@@ -1,5 +1,5 @@
 document.getElementById('debut').addEventListener('click', function() {
-    window.location.href = "./Debut";
+    window.location.href = "./เทสระบบ";
 });
 
 
