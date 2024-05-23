@@ -105,6 +105,10 @@ body {
     border-bottom: 1px solid #000;
 }
 
+#shutter3k {
+    border-bottom: none;
+}
+
 @media screen and (max-width: 600px) {
     .container {
         width: 80%;

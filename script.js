@@ -2,7 +2,9 @@ document.getElementById('debut').addEventListener('click', function() {
     window.location.href = "./เทสระบบ";
 });
 
-
+document.getElementById('shutter3k').addEventListener('click', function() {
+    window.location.href = "./ชัตเตอร์ 3k";
+});
 
 /*=============== SCROLL REVEAL ANIMATION ===============*/
 const sr = ScrollReveal({
