@@ -13,7 +13,7 @@ firebase.initializeApp(firebaseConfig);
 const folderName = document.title;
 const storageRef = firebase.storage().ref();
 
-const itemsPerPage = 10;
+const itemsPerPage = 8;
 let currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
 let totalPages = 1;
 
