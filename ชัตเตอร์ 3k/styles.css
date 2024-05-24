@@ -126,7 +126,7 @@ figure.snip1277.hover figcaption ion-icon {
 }
 
 .main img {
-  filter: blur(10px);
+  filter: blur(5px);
   transition: filter 1s ease-in-out;
 }
 
