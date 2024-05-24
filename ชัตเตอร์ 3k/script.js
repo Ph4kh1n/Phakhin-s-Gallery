@@ -101,6 +101,8 @@ async function displayImages() {
         const img = document.createElement('img');
         img.dataset.src = file.url; // Use data-src for lazy loading
         img.alt = file.name;
+        img.decoding = "async";
+        img.fetchPriority = "high";
         img.loading = "lazy"; // Fallback for browsers supporting native lazy loading
 
         const figcaption = document.createElement('figcaption');
