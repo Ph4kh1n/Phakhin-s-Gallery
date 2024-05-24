@@ -136,6 +136,27 @@ figure.snip1277.hover figcaption ion-icon {
   transition: filter 1s ease-in-out;
 }
 
+.pagination {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.page-button {
+  margin: 2.5px 2.5px;
+  padding: 4px 10px;
+  cursor: pointer;
+  background-color: #212121;
+  color: #fff;
+  border: solid #fff 1px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3ms;
+}
+
+.page-button:hover {
+  color: #212121;
+  background-color: #fff;
+}
+
 @media (max-width: 400px) {
   .main {
     width: 100%;
