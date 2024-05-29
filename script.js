@@ -6,6 +6,10 @@ document.getElementById('shutter3k').addEventListener('click', function() {
     window.location.href = "./ชัตเตอร์ 3k";
 });
 
+document.getElementById('sleepy').addEventListener('click', function() {
+    window.location.href = "./ง่วงนอน";
+});
+
 /*=============== SCROLL REVEAL ANIMATION ===============*/
 const sr = ScrollReveal({
     origin: 'top',

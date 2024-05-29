@@ -109,6 +109,10 @@ body {
     border-bottom: none;
 }
 
+#sleepy {
+    border-bottom: none;
+}
+
 @media screen and (max-width: 600px) {
     .container {
         width: 80%;
