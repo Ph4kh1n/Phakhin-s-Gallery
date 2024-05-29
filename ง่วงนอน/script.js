@@ -10,6 +10,38 @@ const firebaseConfig = {
   
 firebase.initializeApp(firebaseConfig);
 
+let timeoutID;
+
+// ฟังก์ชั่นสำหรับลบ localStorage
+function clearLocalStorage() {
+    localStorage.clear();
+}
+
+// ฟังก์ชั่นสำหรับเริ่มการนับเวลา
+function startTimeout() {
+    timeoutID = setTimeout(clearLocalStorage, 3 * 60 * 1000); // 3 นาที
+}
+
+// ฟังก์ชั่นสำหรับรีเซ็ตเวลาเมื่อผู้ใช้กลับมาที่หน้าเว็บ
+function resetTimeout() {
+    clearTimeout(timeoutID);
+    startTimeout();
+}
+
+// เรียกใช้ฟังก์ชั่น startTimeout เมื่อโหลดหน้าเว็บ
+window.addEventListener('load', startTimeout);
+
+// รีเซ็ตเวลาเมื่อผู้ใช้กลับมาที่หน้าเว็บ
+window.addEventListener('mousemove', resetTimeout);
+window.addEventListener('scroll', resetTimeout);
+window.addEventListener('keydown', resetTimeout);
+window.addEventListener('click', resetTimeout);
+
+// ล้าง localStorage เมื่อผู้ใช้ออกจากหน้าเว็บ
+window.addEventListener('beforeunload', () => {
+    clearTimeout(timeoutID);
+});
+
 const folderName = document.title;
 const storageRef = firebase.storage().ref();
 
