@@ -10,6 +10,10 @@ document.getElementById('sleepy').addEventListener('click', function() {
     window.location.href = "./ง่วงนอน";
 });
 
+document.getElementById('nunid-day').addEventListener('click', function() {
+    window.location.href = "./หนูนิด Day";
+});
+
 /*=============== SCROLL REVEAL ANIMATION ===============*/
 const sr = ScrollReveal({
     origin: 'top',

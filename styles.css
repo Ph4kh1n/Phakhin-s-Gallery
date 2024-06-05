@@ -113,6 +113,10 @@ body {
     border-bottom: none;
 }
 
+#nunid-day {
+    border-bottom: none;
+}
+
 @media screen and (max-width: 600px) {
     .container {
         width: 80%;
