@@ -103,6 +103,8 @@ async function displayImages() {
     const mainDiv = document.querySelector('.main');
     mainDiv.innerHTML = '';
 
+    const head = document.querySelector('head'); // หัวของเอกสาร HTML
+
     const observerOptions = {
         root: null,
         rootMargin: '0px',
@@ -137,6 +139,13 @@ async function displayImages() {
         img.alt = file.name;
         img.decoding = "async";
         img.loading = "lazy"; // รองรับการโหลดแบบ lazy loading ในเบราว์เซอร์ที่รองรับ
+
+        // สร้างแท็ก <link rel="preload"> สำหรับแต่ละรูปภาพ
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        link.href = file.url;
+        head.appendChild(link);
 
         const figcaption = document.createElement('figcaption');
 
