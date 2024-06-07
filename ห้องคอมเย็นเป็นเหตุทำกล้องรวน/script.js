@@ -58,6 +58,7 @@ async function listAllFiles() {
         const metadata = await itemRef.getMetadata();
         return {
             url: url,
+            thumbnailUrl: `${url}?alt=media&token=YOUR_THUMBNAIL_TOKEN`, // ใช้ URL ของรูปภาพขนาดย่อ
             name: itemRef.name,
             timeCreated: metadata.timeCreated
         };
@@ -132,7 +133,7 @@ async function displayImages() {
         
         const img = document.createElement('img');
         img.dataset.src = file.url; // ใช้ data-src สำหรับ lazy loading
-        img.src = 'thumbnail_url'; // แทนที่ 'thumbnail_url' ด้วย URL ของรูปภาพขนาดย่อ
+        img.src = file.thumbnailUrl; // ใช้ URL ของรูปภาพขนาดย่อสำหรับโหลดเริ่มต้น
         img.alt = file.name;
         img.decoding = "async";
         img.loading = "lazy"; // รองรับการโหลดแบบ lazy loading ในเบราว์เซอร์ที่รองรับ
