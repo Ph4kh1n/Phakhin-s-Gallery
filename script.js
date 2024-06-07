@@ -14,6 +14,10 @@ document.getElementById('nunid-day').addEventListener('click', function() {
     window.location.href = "./หนูนิด Day";
 });
 
+document.getElementById('s302-computer-hellyeah').addEventListener('click', function() {
+    window.location.href = "./ห้องคอมเย็นเป็นเหตุทำกล้องรวน";
+});
+
 /*=============== SCROLL REVEAL ANIMATION ===============*/
 const sr = ScrollReveal({
     origin: 'top',
