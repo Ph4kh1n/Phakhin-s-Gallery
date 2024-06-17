@@ -10,6 +10,38 @@ const firebaseConfig = {
   
 firebase.initializeApp(firebaseConfig);
 
+let timeoutID;
+
+// ฟังก์ชั่นสำหรับลบ localStorage
+function clearLocalStorage() {
+    localStorage.clear();
+}
+
+// ฟังก์ชั่นสำหรับเริ่มการนับเวลา
+function startTimeout() {
+    timeoutID = setTimeout(clearLocalStorage, 3 * 60 * 1000); // 3 นาที
+}
+
+// ฟังก์ชั่นสำหรับรีเซ็ตเวลาเมื่อผู้ใช้กลับมาที่หน้าเว็บ
+function resetTimeout() {
+    clearTimeout(timeoutID);
+    startTimeout();
+}
+
+// เรียกใช้ฟังก์ชั่น startTimeout เมื่อโหลดหน้าเว็บ
+window.addEventListener('load', startTimeout);
+
+// รีเซ็ตเวลาเมื่อผู้ใช้กลับมาที่หน้าเว็บ
+window.addEventListener('mousemove', resetTimeout);
+window.addEventListener('scroll', resetTimeout);
+window.addEventListener('keydown', resetTimeout);
+window.addEventListener('click', resetTimeout);
+
+// ล้าง localStorage เมื่อผู้ใช้ออกจากหน้าเว็บ
+window.addEventListener('beforeunload', () => {
+    clearTimeout(timeoutID);
+});
+
 const folderName = document.title;
 const storageRef = firebase.storage().ref();
 
@@ -18,31 +50,21 @@ let currentPage = parseInt(localStorage.getItem('currentPage')) || 1;
 let totalPages = 1;
 
 async function listAllFiles() {
-    const listRef = storageRef.child(folderName);
-    const lowQualityFolderRef = storageRef.child(`low_quality_images/${folderName}`);
-
+    const listRef = storageRef.child(folderName); // ใช้ชื่อโฟลเดอร์แบบไดนามิก
     const res = await listRef.listAll();
-    const lowQualityRes = await lowQualityFolderRef.listAll();
-
-    const lowQualityFilesMap = new Map();
-    await Promise.all(lowQualityRes.items.map(async (itemRef) => {
-        const url = await itemRef.getDownloadURL();
-        lowQualityFilesMap.set(itemRef.name, url);
-    }));
 
     const files = await Promise.all(res.items.map(async (itemRef) => {
         const url = await itemRef.getDownloadURL();
-        const lowQualityUrl = lowQualityFilesMap.get(itemRef.name);
-
         const metadata = await itemRef.getMetadata();
         return {
             url: url,
-            lowQualityUrl: lowQualityUrl, // ใช้ URL ของภาพคุณภาพต่ำ
+            thumbnailUrl: `${url}?alt=media&token=YOUR_THUMBNAIL_TOKEN`, // ใช้ URL ของรูปภาพขนาดย่อ
             name: itemRef.name,
             timeCreated: metadata.timeCreated
         };
     }));
 
+    // เรียงลำดับไฟล์ตามชื่อ
     files.sort((a, b) => a.name.localeCompare(b.name));
 
     return files;
@@ -67,6 +89,7 @@ function createPaginationButtons(totalPages) {
         paginationDiv.appendChild(button);
     }
 
+    // เพิ่ม CSS class ที่กำหนดสีพื้นหลังและสีตัวหนังสือเมื่อปุ่มถูกเลือก
     const activeButton = paginationDiv.querySelector('.active');
     if (activeButton) {
         activeButton.style.backgroundColor = '#fff';
@@ -80,7 +103,7 @@ async function displayImages() {
     const mainDiv = document.querySelector('.main');
     mainDiv.innerHTML = '';
 
-    const head = document.querySelector('head');
+    const head = document.querySelector('head'); // หัวของเอกสาร HTML
 
     const observerOptions = {
         root: null,
@@ -109,19 +132,20 @@ async function displayImages() {
     filesToDisplay.forEach(file => {
         const figure = document.createElement('figure');
         figure.className = 'snip1277';
-
+        
         const img = document.createElement('img');
-        img.dataset.src = file.url;
-        img.src = file.lowQualityUrl; // ใช้ URL ของภาพคุณภาพต่ำสำหรับโหลดเริ่มต้น ถ้าไม่มีภาพคุณภาพต่ำ ให้ใช้ภาพคุณภาพสูง
+        img.dataset.src = file.url; // ใช้ data-src สำหรับ lazy loading
+        img.src = file.thumbnailUrl; // ใช้ URL ของรูปภาพขนาดย่อสำหรับโหลดเริ่มต้น
         img.alt = file.name;
         img.decoding = "async";
-        img.loading = "lazy";
+        img.loading = "lazy"; // รองรับการโหลดแบบ lazy loading ในเบราว์เซอร์ที่รองรับ
 
+        // สร้างแท็ก <link rel="preload"> สำหรับแต่ละรูปภาพ
         const link = document.createElement('link');
         link.rel = 'preload';
         link.as = 'image';
         link.href = file.url;
-        link.type = 'image/jpeg';
+        link.type = 'image/jpeg'
         head.appendChild(link);
 
         const figcaption = document.createElement('figcaption');
@@ -141,10 +165,11 @@ async function displayImages() {
 
         mainDiv.appendChild(figure);
 
-        observer.observe(img);
+        observer.observe(img); // เริ่มสังเกตรูปภาพ
     });
 
     createPaginationButtons(totalPages);
 }
 
+// เรียกใช้ฟังก์ชั่นเพื่อแสดงรูปภาพ
 displayImages();

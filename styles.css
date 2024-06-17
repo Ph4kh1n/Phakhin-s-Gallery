@@ -121,6 +121,10 @@ body {
     border-bottom: none;
 }
 
+#Badminton-day-1 {
+    border-bottom: none;
+}
+
 @media screen and (max-width: 600px) {
     .container {
         width: 80%;
